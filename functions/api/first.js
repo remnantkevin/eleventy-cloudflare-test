@@ -9,7 +9,9 @@ export async function onRequest(context) {
     data, // arbitrary space for passing data between middlewares
   } = context;
 
-  const { country, region, regionCode } = request.cf;
+  const { country, regionCode, region } = request.cf;
 
-  return new Response(JSON.stringify([env, country, region, regionCode]));
+  const holidayData = await DATA.get(`${country}:${regionCode}`);
+
+  return new Response(holidayData);
 }
