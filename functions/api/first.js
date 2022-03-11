@@ -1,17 +1,21 @@
 export async function onRequest(context) {
-  // Contents of context object
-  const {
-    request, // same as existing Worker API
-    env, // same as existing Worker API
-    params, // if filename includes [id] or [[path]]
-    waitUntil, // same as ctx.waitUntil in existing Worker API
-    next, // used for middleware or to fetch assets
-    data, // arbitrary space for passing data between middlewares
-  } = context;
+  try {
+    // Contents of context object
+    const {
+      request, // same as existing Worker API
+      env, // same as existing Worker API
+      params, // if filename includes [id] or [[path]]
+      waitUntil, // same as ctx.waitUntil in existing Worker API
+      next, // used for middleware or to fetch assets
+      data, // arbitrary space for passing data between middlewares
+    } = context;
 
-  const { country, regionCode, region } = request.cf;
+    const { country, regionCode, region } = request.cf;
 
-  const holidayData = await DATA.get(`${country}:${regionCode}`);
+    const holidayData = await DATA.get(`${country}:${regionCode}`);
 
-  return new Response(holidayData);
+    return new Response(holidayData);
+  } catch (e) {
+    return new Response(JSON.stringify(e, Object.getOwnPropertyNames(e)));
+  }
 }
