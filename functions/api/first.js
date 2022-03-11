@@ -9,5 +9,7 @@ export async function onRequest(context) {
     data, // arbitrary space for passing data between middlewares
   } = context;
 
-  return new Response(JSON.stringify(request.cf));
+  const { country, region, regionCode } = request.cf;
+
+  return new Response(JSON.stringify([env, country, region, regionCode]));
 }
