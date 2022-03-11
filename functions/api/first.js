@@ -9,5 +9,5 @@ export async function onRequest(context) {
     data, // arbitrary space for passing data between middlewares
   } = context;
 
-  return new Response(JSON.stringify(request.headers));
+  return new Response(request.headers.getAll());
 }
